@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+# Apache gets grumpy about PID files pre-existing
+rm -f $HTTPD_PREFIX/logs/httpd.pid
+
+if ! id -u www-data >/dev/null 2>&1
+then
+    addgroup -g ${WWW_DATA_GROUP_ID} -S www-data
+    adduser -u ${WWW_DATA_USER_ID} -D -S -G www-data www-data
+    chown www-data:www-data "$HTTPD_PREFIX"
+    chown -R www-data:www-data "$WEB_ROOT"
+    update-ca-certificates
+fi
+
+exec httpd -DFOREGROUND
