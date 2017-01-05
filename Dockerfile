@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.4
 
 ENV 	HTTPD_VERSION=2.2.15 \
 	HTTPD_PREFIX=/etc/httpd \
